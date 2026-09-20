@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#181b1f">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Панель управления — СИНДИКА</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   FLUID DESIGN SYSTEM — адаптация под 30+ размеров экранов
+   ========================================================= */
+:root{
+  --bg:#181b1f;--bg-2:#1e2227;--bg-3:#252a30;--bg-4:#2d333a;--bg-hi:#343b43;
+  --line:rgba(255,255,255,.1);--line-2:rgba(255,255,255,.16);
+  --text:#f0ede7;--text-2:rgba(240,237,231,.68);--text-3:rgba(240,237,231,.44);
+  --sand:#c9c0ab;--sand-2:#d6cdb9;--danger:#e05c5c;--ok:#4ade80;
+  --ease:cubic-bezier(.22,1,.36,1);
+
+  --sp-xxs: clamp(4px,  min(0.35vw, 0.5vh),  8px);
+  --sp-xs:  clamp(8px,  min(0.6vw,  0.9vh),  14px);
+  --sp-sm:  clamp(12px, min(0.9vw,  1.3vh),  18px);
+  --sp-md:  clamp(16px, min(1.3vw,  1.8vh),  24px);
+  --sp-lg:  clamp(22px, min(1.8vw,  2.6vh),  36px);
+  --sp-xl:  clamp(30px, min(2.8vw,  3.8vh),  52px);
+  --sp-2xl: clamp(40px, min(4vw,    5.5vh),  72px);
+
+  --fs-xxs: clamp(9.5px,  min(0.62vw, 0.85vh), 11.5px);
+  --fs-xs:  clamp(10.5px, min(0.72vw, 1.05vh), 12.5px);
+  --fs-sm:  clamp(12px,   min(0.82vw, 1.2vh),  13.5px);
+  --fs-base:clamp(13px,   min(0.92vw, 1.4vh),  15px);
+  --fs-md:  clamp(14px,   min(1.02vw, 1.55vh), 16px);
+  --fs-lg:  clamp(15.5px, min(1.15vw, 1.75vh), 18px);
+  --fs-xl:  clamp(17px,   min(1.35vw, 2vh),    21px);
+  --fs-2xl: clamp(19px,   min(1.6vw,  2.4vh),  25px);
+  --fs-h3:  clamp(15px,   min(1.25vw, 1.85vh), 20px);
+  --fs-h2:  clamp(22px,   min(3vw,    4.2vh),  44px);
+  --fs-h1:  clamp(24px,   min(3.5vw,  5vh),    40px);
+
+  --r:    clamp(10px, min(1vw, 1.4vh), 16px);
+  --r-lg: clamp(14px, min(1.4vw, 2vh), 22px);
+
+  --max: 1400px;
+  --gutter: clamp(14px, min(3.2vw, 4.5vh), 40px);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:'Manrope',system-ui,sans-serif;
+  background:var(--bg);color:var(--text);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  line-height:1.6;font-weight:400;min-height:100svh;
+  font-size:var(--fs-base);
+}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+img,video{max-width:100%;display:block}
+button,input,textarea,select{font-family:inherit;color:inherit}
+::selection{background:var(--sand);color:var(--bg)}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bg-4);border-radius:5px}
+::-webkit-scrollbar-thumb:hover{background:var(--bg-hi)}
+.wrap{width:min(var(--max), calc(100% - var(--gutter)*2));margin-inline:auto}
+[hidden]{display:none!important}
+
+/* ФОН */
+.scene{position:fixed;inset:0;z-index:-3;overflow:hidden;background:
+  radial-gradient(1400px 900px at 75% -10%, rgba(10,85,92,.42) 0%, transparent 55%),
+  radial-gradient(1000px 800px at -10% 30%, rgba(201,192,171,.06) 0%, transparent 55%),
+  radial-gradient(1200px 900px at 100% 100%, rgba(6,64,68,.34) 0%, transparent 60%),
+  linear-gradient(180deg, #1c2026 0%, #181b1f 45%, #14171b 100%);}
+.scene .arch-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(201,192,171,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,192,171,.045) 1px, transparent 1px);
+  background-size:80px 80px, 80px 80px;
+  -webkit-mask-image:radial-gradient(ellipse 100% 80% at 50% 40%, #000 0%, transparent 75%);
+  mask-image:radial-gradient(ellipse 100% 80% at 50% 40%, #000 0%, transparent 75%);
+  animation:gridDrift 60s linear infinite;}
+@keyframes gridDrift{0%{background-position:0 0,0 0}100%{background-position:80px 80px,80px 80px}}
+.mountains{position:absolute;left:-5%;right:-5%;bottom:0;height:70%;pointer-events:none}
+.mountains svg{width:110%;height:100%;display:block}
+.mountains .range-1{color:rgba(60,80,86,.28)}
+.mountains .range-2{color:rgba(40,55,60,.42)}
+.mountains .range-3{color:rgba(24,34,38,.62)}
+.particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.particles span{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(201,192,171,.55);box-shadow:0 0 6px rgba(201,192,171,.6);animation:float linear infinite;opacity:0}
+@keyframes float{0%{transform:translate3d(0,20vh,0);opacity:0}10%{opacity:.7}90%{opacity:.7}100%{transform:translate3d(var(--drift,20px),-110vh,0);opacity:0}}
+.scene .pulse{position:absolute;border-radius:50%;pointer-events:none;filter:blur(80px);animation:pulseGlow 14s ease-in-out infinite}
+.scene .pulse.p1{width:520px;height:520px;left:8%;top:12%;background:radial-gradient(circle,rgba(10,85,92,.55) 0%,transparent 70%)}
+.scene .pulse.p2{width:640px;height:640px;right:2%;top:38%;background:radial-gradient(circle,rgba(201,192,171,.12) 0%,transparent 70%);animation-delay:-5s}
+.scene .pulse.p3{width:580px;height:580px;left:35%;bottom:8%;background:radial-gradient(circle,rgba(6,64,68,.45) 0%,transparent 70%);animation-delay:-9s}
+@keyframes pulseGlow{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+.scene .noise{position:absolute;inset:0;opacity:.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* NAV */
+.nav-wrap{position:fixed;top:0;left:0;right:0;z-index:100;padding:clamp(14px, min(1.6vw, 2.4vh), 22px) var(--gutter);transition:padding .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease);border-bottom:1px solid transparent}
+.nav-wrap.scrolled{padding:clamp(8px, min(1vw, 1.4vh), 12px) var(--gutter);background:rgba(24,27,31,.86);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);border-bottom-color:var(--line)}
+.nav-inner{width:min(var(--max), 100%);margin-inline:auto;display:flex;align-items:center;gap:clamp(12px, 1.4vw, 20px)}
+.brand-center{display:flex;flex-direction:column;align-items:flex-start;gap:4px;line-height:1}
+.brand-center .logo{width:clamp(20px, 1.5vw, 26px);height:auto;aspect-ratio:24/28;color:var(--sand);margin-bottom:2px}
+.brand-center .name{font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(13px, 1vw, 16px);letter-spacing:.32em;color:var(--text);padding-left:.32em}
+.brand-center .sub{font-size:clamp(7px, 0.5vw, 8.5px);font-weight:500;letter-spacing:.34em;color:var(--text-3);text-transform:uppercase;padding-left:.34em}
+.nav-user{margin-left:auto;display:flex;align-items:center;gap:clamp(8px, 1vw, 12px)}
+.nav-user .who{display:flex;align-items:center;gap:6px;padding:7px clamp(12px, 1.2vw, 16px);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:99px;font-size:var(--fs-sm);font-weight:500}
+.nav-user .who b{font-weight:600;color:var(--sand)}
+.nav-user .who .role{font-size:var(--fs-xxs);font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
+.logout-btn{font-family:'Manrope',sans-serif;font-size:var(--fs-xs);font-weight:500;color:var(--text-3);background:rgba(255,255,255,.04);border:1px solid var(--line);padding:8px clamp(12px, 1.2vw, 16px);border-radius:99px;cursor:pointer;transition:.25s var(--ease)}
+.logout-btn:hover{color:var(--danger);border-color:rgba(224,92,92,.3);background:rgba(224,92,92,.06)}
+
+/* MAIN */
+.admin-main{padding:clamp(110px, 13vh, 160px) 0 clamp(50px, 6vh, 80px);min-height:100svh}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-xs);font-weight:500;color:var(--text-2);padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid var(--line);margin-bottom:clamp(12px, 1.8vh, 20px)}
+
+/* LOGIN */
+.login-wrap{display:flex;justify-content:center;align-items:flex-start;padding:20px}
+.login-card{width:min(440px,100%);padding:clamp(28px, min(3.4vw, 4.6vh), 44px) clamp(22px, min(3vw, 4vh), 40px);background:linear-gradient(160deg, var(--bg-2) 0%, #1a1d22 100%);border:1px solid var(--line);border-radius:var(--r-lg);position:relative}
+.login-card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg, transparent, rgba(201,192,171,.4), transparent);border-radius:var(--r-lg) var(--r-lg) 0 0}
+.login-card h1{font-family:'Inter Tight',sans-serif;font-weight:400;font-size:clamp(22px, min(2.2vw, 3vh), 30px);color:var(--text);letter-spacing:-.025em;margin-bottom:8px}
+.login-sub{font-size:var(--fs-sm);color:var(--text-2);opacity:.85;margin-bottom:clamp(18px, 2.4vh, 28px);line-height:1.55}
+.login-error{margin-top:12px;padding:11px 14px;border-radius:11px;background:rgba(224,92,92,.08);border:1px solid rgba(224,92,92,.25);color:var(--danger);font-size:var(--fs-sm);font-weight:500;text-align:center}
+
+/* FIELDS */
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:0}
+.fg label{font-size:var(--fs-xxs);font-weight:500;color:var(--text-3);padding-left:2px;letter-spacing:.02em}
+.fg input,.fg textarea,.fg select{font-family:'Manrope',sans-serif;font-size:var(--fs-base);font-weight:400;color:var(--text);padding:clamp(10px, 1.4vh, 13px) clamp(12px, 1.2vw, 16px);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:11px;outline:none;transition:.25s var(--ease);resize:vertical;width:100%;appearance:none;-webkit-appearance:none}
+.fg textarea{resize:vertical;min-height:60px}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--text-3)}
+.fg input:focus,.fg textarea:focus,.fg select:focus{background:rgba(255,255,255,.06);border-color:var(--sand)}
+.fg select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23c9c0ab' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.fg select option{background:var(--bg-2);color:var(--text)}
+.fg .field-hint{font-size:var(--fs-xxs);color:var(--text-3);padding-left:2px;margin-top:-2px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:'Manrope',sans-serif;font-weight:600;font-size:var(--fs-sm);padding:clamp(11px, 1.4vh, 15px) clamp(16px, 1.6vw, 24px);border-radius:12px;transition:.3s var(--ease);cursor:pointer;border:1px solid transparent;white-space:nowrap;letter-spacing:-.005em}
+.btn svg{width:14px;height:14px;flex-shrink:0;transition:transform .35s var(--ease)}
+.btn-primary{background:var(--sand);color:var(--bg)}
+.btn-primary:hover{background:var(--sand-2);transform:translateY(-2px)}
+.btn-primary:hover svg{transform:translateX(4px)}
+.btn-primary:disabled{opacity:.7;cursor:wait;transform:none}
+.btn-ghost{background:rgba(255,255,255,.06);color:var(--text);border-color:var(--line-2)}
+.btn-ghost:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.25);transform:translateY(-2px)}
+.login-card .btn{width:100%;margin-top:18px}
+.spinner{width:14px;height:14px;border:1.5px solid rgba(0,0,0,.25);border-top-color:var(--bg);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* PANEL HEAD */
+.panel-head{display:flex;justify-content:space-between;align-items:flex-end;gap:clamp(16px, 2vw, 24px);flex-wrap:wrap;margin-bottom:clamp(24px, 3vh, 36px)}
+.panel-head h2{font-family:'Inter Tight',sans-serif;font-weight:400;font-size:clamp(24px, min(3vw, 4.2vh), 44px);color:var(--text);letter-spacing:-.03em;line-height:1.05}
+.panel-head h2 em{font-style:normal;color:var(--sand)}
+.panel-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* FORM */
+.obj-form{background:linear-gradient(160deg, var(--bg-2) 0%, #1a1d22 100%);border:1px solid var(--line);border-radius:var(--r-lg);margin-bottom:clamp(22px, 3vh, 32px);overflow:hidden;position:relative}
+.obj-form::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg, transparent, rgba(201,192,171,.35), transparent);z-index:2;pointer-events:none}
+.form-head{padding:clamp(18px, 2.4vh, 26px) clamp(20px, min(2.8vw, 3.6vh), 34px);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
+.form-head h3{font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(16px, 1.4vw, 19px);color:var(--text);letter-spacing:-.02em}
+.close-form{width:36px;height:36px;border-radius:50%;border:1px solid var(--line-2);background:transparent;color:var(--text-2);cursor:pointer;font-size:13px;transition:.25s var(--ease);display:grid;place-items:center}
+.close-form:hover{background:rgba(224,92,92,.1);color:var(--danger);border-color:rgba(224,92,92,.3);transform:rotate(90deg)}
+
+.form-section{padding:clamp(20px, 2.6vh, 28px) clamp(20px, min(2.8vw, 3.6vh), 34px);border-bottom:1px solid var(--line)}
+.form-section:last-of-type{border-bottom:none}
+.form-section-title{display:flex;align-items:center;gap:10px;margin-bottom:clamp(16px, 2.2vh, 22px)}
+.form-section-title .icon{width:clamp(32px, 2.4vw, 36px);height:clamp(32px, 2.4vw, 36px);border-radius:12px;display:grid;place-items:center;background:rgba(201,192,171,.08);border:1px solid rgba(201,192,171,.22);color:var(--sand);flex-shrink:0}
+.form-section-title .icon svg{width:15px;height:15px}
+.form-section-title h4{font-family:'Inter Tight',sans-serif;font-weight:500;font-size:var(--fs-base);color:var(--text);letter-spacing:-.01em;margin:0}
+.form-section-title .hint{font-size:var(--fs-xxs);color:var(--text-3);margin-left:auto;font-weight:500;letter-spacing:.04em}
+
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px, 1.2vw, 16px) clamp(12px, 1.3vw, 18px)}
+.form-grid .full{grid-column:1/-1}
+
+.form-actions{padding:clamp(16px, 2vh, 22px) clamp(20px, min(2.8vw, 3.6vh), 34px);display:flex;justify-content:flex-end;gap:10px;background:rgba(255,255,255,.02);border-top:1px solid var(--line)}
+
+/* LIST */
+.list-toolbar{display:flex;gap:12px;align-items:center;margin-bottom:clamp(16px, 2.2vh, 24px);flex-wrap:wrap}
+.list-search{flex:1;min-width:220px;font-family:'Manrope',sans-serif;font-size:var(--fs-md);font-weight:400;color:var(--text);padding:clamp(11px, 1.5vh, 14px) clamp(14px, 1.4vw, 18px);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;outline:none;transition:.25s var(--ease)}
+.list-search::placeholder{color:var(--text-3)}
+.list-search:focus{background:rgba(255,255,255,.06);border-color:var(--sand)}
+.list-count{font-size:var(--fs-sm);font-weight:500;color:var(--text-3);white-space:nowrap}
+
+.objects-list{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px, 1.6vw, 20px)}
+.obj-row{background:linear-gradient(160deg, var(--bg-2) 0%, #1a1d22 100%);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:.4s var(--ease);display:flex;flex-direction:column}
+.obj-row:hover{border-color:var(--line-2);background:linear-gradient(160deg, var(--bg-3) 0%, var(--bg-2) 100%);transform:translateY(-4px);box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.obj-row .thumb{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--bg-3);flex-shrink:0}
+.obj-row .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s var(--ease);filter:saturate(.95) brightness(.9)}
+.obj-row:hover .thumb img{transform:scale(1.04)}
+.obj-row .thumb .no-photo{position:absolute;inset:0;display:grid;place-items:center;color:var(--text-3);font-size:var(--fs-xxs);letter-spacing:.2em;text-transform:uppercase;font-weight:500}
+
+.obj-row .badges{display:flex;gap:5px;flex-wrap:wrap;padding:clamp(12px, 1.8vh, 16px) clamp(14px, 1.5vw, 20px) 0}
+.badge{font-size:var(--fs-xxs);font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:99px;border:1px solid var(--line)}
+.badge.deal{background:rgba(201,192,171,.92);color:var(--bg);border-color:var(--sand);font-weight:600}
+.badge.status-active{background:rgba(74,222,128,.1);color:var(--ok);border-color:rgba(74,222,128,.3)}
+.badge.status-hidden{background:rgba(224,92,92,.1);color:var(--danger);border-color:rgba(224,92,92,.25)}
+.badge.tag{background:rgba(255,255,255,.05);color:var(--text-2)}
+
+.obj-row .title{font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(15px, 1.2vw, 17px);color:var(--text);line-height:1.3;letter-spacing:-.015em;padding:10px clamp(14px, 1.5vw, 20px) 6px}
+.obj-row .meta{font-size:var(--fs-xs);color:var(--text-2);line-height:1.5;padding:0 clamp(14px, 1.5vw, 20px)}
+.obj-row .price{font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(15px, 1.2vw, 17px);color:var(--text);letter-spacing:-.02em;padding:10px clamp(14px, 1.5vw, 20px) 14px}
+.obj-row .actions{display:flex;gap:6px;padding:clamp(12px, 1.8vh, 16px) clamp(14px, 1.5vw, 20px) clamp(14px, 1.8vh, 18px);border-top:1px solid var(--line);margin-top:auto}
+.obj-row .actions button{flex:1;font-family:'Manrope',sans-serif;font-size:var(--fs-xs);font-weight:500;padding:9px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent;transition:.25s var(--ease)}
+.btn-edit{background:rgba(255,255,255,.04);color:var(--text-2);border-color:var(--line-2)!important}
+.btn-edit:hover{background:rgba(255,255,255,.08);color:var(--text)}
+.btn-del{background:rgba(224,92,92,.06);color:var(--danger);border-color:rgba(224,92,92,.2)!important}
+.btn-del:hover{background:rgba(224,92,92,.15)}
+.empty-list{grid-column:1/-1;padding:clamp(40px, 6vh, 60px) 20px;text-align:center;background:linear-gradient(160deg, var(--bg-2) 0%, #1a1d22 100%);border:1px solid var(--line);border-radius:var(--r-lg);color:var(--text-3);font-size:var(--fs-md)}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:500;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{padding:12px 20px;border-radius:12px;background:rgba(30,34,39,.95);color:var(--text);font-size:var(--fs-sm);font-weight:500;border:1px solid var(--line-2);box-shadow:0 18px 40px -14px rgba(0,0,0,.6);animation:slideUp .4s var(--ease);backdrop-filter:blur(20px)}
+.toast.ok{border-color:rgba(74,222,128,.4);color:var(--ok)}
+.toast.err{border-color:rgba(224,92,92,.4);color:var(--danger)}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* MODAL */
+.modal{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:.35s var(--ease)}
+.modal.open{opacity:1;visibility:visible}
+.modal-backdrop{position:absolute;inset:0;background:rgba(10,12,14,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer}
+.modal-card{position:relative;z-index:2;width:min(1000px,100%);max-height:calc(100svh - 40px);overflow-y:auto;background:linear-gradient(160deg, var(--bg-2) 0%, #1a1d22 100%);border:1px solid var(--line-2);border-radius:var(--r-lg);box-shadow:0 60px 120px -30px rgba(0,0,0,.9);transform:translateY(16px);transition:.4s var(--ease)}
+.modal.open .modal-card{transform:none}
+.modal-close{position:sticky;top:14px;margin:14px 14px 0 auto;z-index:5;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-2);background:rgba(24,27,31,.85);color:var(--text);cursor:pointer;display:grid;place-items:center;transition:.25s var(--ease);float:right;backdrop-filter:blur(10px);font-size:13px}
+.modal-close:hover{background:var(--sand);color:var(--bg);border-color:var(--sand)}
+
+.gallery{margin:0 14px;clear:both}
+.gallery-main{position:relative;overflow:hidden;aspect-ratio:16/9;border-radius:12px;background:var(--bg-3)}
+.gallery-main img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-main .no-photo{position:absolute;inset:0;display:grid;place-items:center;color:var(--text-3);font-size:var(--fs-xs);letter-spacing:.2em;text-transform:uppercase;font-weight:500}
+.gallery-nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:none;background:rgba(24,27,31,.85);color:var(--text);cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(10px);transition:.25s var(--ease);z-index:3}
+.gallery-nav:hover{background:var(--sand);color:var(--bg)}
+.gallery-nav.prev{left:12px}
+.gallery-nav.next{right:12px}
+.gallery-nav svg{width:15px;height:15px}
+.gallery-nav:disabled{opacity:0;pointer-events:none}
+.gallery-counter{position:absolute;bottom:12px;right:12px;padding:5px 10px;background:rgba(24,27,31,.85);color:var(--text);font-size:var(--fs-xs);font-weight:500;letter-spacing:.08em;backdrop-filter:blur(10px);border-radius:8px;border:1px solid var(--line-2);z-index:3}
+.gallery-thumbs{display:flex;gap:6px;margin-top:8px;overflow-x:auto;padding-bottom:5px;scrollbar-width:thin}
+.gallery-thumbs::-webkit-scrollbar{height:4px}
+.gallery-thumbs::-webkit-scrollbar-thumb{background:var(--bg-4);border-radius:4px}
+.gallery-thumb{width:72px;height:52px;flex-shrink:0;border-radius:8px;overflow:hidden;cursor:pointer;border:1px solid var(--line);transition:.25s var(--ease);background:var(--bg-3)}
+.gallery-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-thumb.active{border-color:var(--sand)}
+.gallery-thumb:hover{border-color:var(--line-2)}
+
+.modal-body{padding:clamp(20px, 2.6vh, 28px) clamp(20px, 3vw, 36px) clamp(26px, 3.4vh, 36px)}
+.modal-body h2{font-family:'Inter Tight',sans-serif;font-weight:400;font-size:clamp(20px, min(2.2vw, 2.8vh), 30px);color:var(--text);letter-spacing:-.025em;line-height:1.15;margin-bottom:10px}
+.modal-loc{font-size:var(--fs-sm);color:var(--text-2);margin-bottom:20px;display:flex;align-items:center;gap:6px}
+.modal-loc svg{width:12px;height:12px;flex-shrink:0;opacity:.7}
+.modal-specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:22px}
+.modal-specs .spec{padding:clamp(12px, 1.6vh, 16px);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px}
+.spec label{display:block;font-size:var(--fs-xxs);font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:5px}
+.spec b{font-family:'Inter Tight',sans-serif;font-weight:500;font-size:var(--fs-base);color:var(--text);letter-spacing:-.01em}
+.modal-video{margin-bottom:20px;border-radius:12px;overflow:hidden;background:#000;border:1px solid var(--line)}
+.modal-video iframe,.modal-video video{width:100%;aspect-ratio:16/9;border:none;display:block}
+.modal-desc{font-size:var(--fs-base);line-height:1.7;color:var(--text-2);margin-bottom:20px;white-space:pre-wrap}
+.modal-features{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.modal-features span{padding:6px 12px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--text-2);font-size:var(--fs-xs);font-weight:500}
+.modal-price{font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(20px, min(2.2vw, 2.8vh), 28px);color:var(--text);letter-spacing:-.025em;margin-bottom:22px;padding-top:18px;border-top:1px solid var(--line)}
+.modal-actions{display:flex;gap:8px;flex-wrap:wrap}
+.modal-actions .btn{flex:1 1 auto;min-width:160px}
+
+/* =========================================================
+   АДАПТАЦИЯ ПОД КОНКРЕТНЫЕ ЭКРАНЫ
+   ========================================================= */
+@media (min-width:1920px){ :root{--max:1500px} }
+@media (max-width:1680px){ :root{--max:1320px} }
+@media (max-width:1600px){ :root{--max:1280px} }
+@media (max-width:1440px){ :root{--max:1240px} }
+@media (max-width:1366px){ :root{--max:1200px} }
+@media (max-width:1280px){
+  :root{--max:1140px}
+  .nav-inner{gap:14px}
+  .objects-list{grid-template-columns:repeat(2,1fr)}
+  .form-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:1080px){
+  .admin-main{padding:clamp(110px, 12vh, 130px) 0 clamp(40px, 5vh, 60px)}
+}
+@media (max-width:900px){
+  .objects-list{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:820px){
+  .admin-main{padding:clamp(100px, 11vh, 120px) 0 clamp(40px, 5vh, 60px)}
+  .login-card{padding:28px 22px}
+  .form-section{padding:20px 18px}
+  .form-head{padding:18px 18px}
+  .form-actions{padding:16px 18px;flex-direction:column-reverse}
+  .form-actions .btn{width:100%}
+  .form-grid{grid-template-columns:1fr}
+  .objects-list{grid-template-columns:1fr}
+  .panel-head{flex-direction:column;align-items:stretch;gap:14px}
+  .panel-actions{width:100%}
+  .panel-actions .btn{flex:1}
+  .modal{padding:0;align-items:flex-end}
+  .modal-card{width:100%;max-height:92svh;border-radius:20px 20px 0 0}
+  .modal-body{padding:20px 18px 28px}
+  .gallery{margin:0 10px}
+  .gallery-main{aspect-ratio:4/3}
+  .modal-actions{flex-direction:column}
+  .modal-actions .btn{min-width:100%}
+  .toast-wrap{left:16px;right:16px;transform:none;bottom:14px}
+  .toast{width:100%;text-align:center}
+}
+@media (max-width:640px){
+  :root{--gutter:18px}
+  .nav-wrap{padding:14px var(--gutter)}
+  .nav-wrap.scrolled{padding:10px var(--gutter)}
+  .brand-center .name{font-size:13px;letter-spacing:.26em;padding-left:.26em}
+  .brand-center .logo{width:22px}
+  .brand-center .sub{font-size:7.5px}
+  .nav-user .who{padding:6px 12px;font-size:12px}
+  .nav-user .who .role{display:none}
+  .logout-btn{padding:7px 12px;font-size:11.5px}
+}
+@media (max-width:380px){
+  :root{--gutter:14px}
+  .brand-center .name{font-size:12px;letter-spacing:.22em;padding-left:.22em}
+  .brand-center .logo{width:18px}
+  .brand-center .sub{font-size:6.5px}
+}
+
+/* =========================================================
+   АДАПТАЦИЯ ПО ВЫСОТЕ ЭКРАНА (КРИТИЧНО ДЛЯ НОУТБУКОВ)
+   ========================================================= */
+@media (max-height:800px) and (min-width:821px){
+  .admin-main{padding:clamp(100px, 11vh, 120px) 0 clamp(40px, 5vh, 60px)}
+  .form-section{padding:18px 22px}
+  .form-head{padding:16px 22px}
+  .form-actions{padding:14px 22px}
+  .form-grid{gap:10px 14px}
+  .login-card{padding:28px 30px}
+}
+@media (max-height:700px) and (min-width:821px){
+  .admin-main{padding:95px 0 40px}
+  .form-section{padding:14px 20px}
+  .form-head{padding:14px 20px}
+  .form-actions{padding:12px 20px}
+  .form-grid{gap:8px 12px}
+}
+
+/* =========================================================
+   ТОЧЕЧНАЯ ПРАВКА ДЛЯ НОУТБУКОВ (1081–1999px)
+   ========================================================= */
+@media (min-width: 1081px) and (max-width: 1999px) {
+  :root{
+    --max: 1180px !important;
+    --gutter: 32px !important;
+  }
+  body{ font-size: 14px !important; }
+
+  /* NAV */
+  .nav-wrap{ padding: 12px var(--gutter) !important; }
+  .brand-center .name{ font-size: 14px !important; letter-spacing:.28em !important; }
+  .brand-center .sub{ font-size: 7.5px !important; }
+  .brand-center .logo{ width: 22px !important; }
+  .nav-user .who{ padding: 6px 12px !important; font-size: 12px !important; }
+  .logout-btn{ padding: 7px 12px !important; font-size: 11.5px !important; }
+
+  /* MAIN */
+  .admin-main{ padding: 105px 0 50px !important; }
+
+  /* LOGIN */
+  .login-card{ padding: 32px 32px !important; max-width: 400px !important; }
+  .login-card h1{ font-size: 24px !important; }
+  .login-sub{ font-size: 12.5px !important; margin-bottom: 20px !important; }
+
+  /* FIELDS */
+  .fg label{ font-size: 10px !important; }
+  .fg input, .fg textarea, .fg select{ padding: 10px 13px !important; font-size: 13.5px !important; }
+
+  /* BUTTONS */
+  .btn{ font-size: 13px !important; padding: 12px 20px !important; border-radius: 10px !important; }
+  .btn svg{ width: 13px !important; height: 13px !important; }
+
+  /* PANEL */
+  .panel-head{ margin-bottom: 24px !important; }
+  .panel-head h2{ font-size: clamp(22px, 2.2vw, 32px) !important; }
+  .eyebrow{ font-size: 11px !important; padding: 5px 12px !important; margin-bottom: 14px !important; }
+
+  /* FORM */
+  .form-head{ padding: 16px 22px !important; }
+  .form-head h3{ font-size: 16px !important; }
+  .form-section{ padding: 18px 22px !important; }
+  .form-section-title{ margin-bottom: 16px !important; }
+  .form-section-title h4{ font-size: 13px !important; }
+  .form-section-title .icon{ width: 32px !important; height: 32px !important; }
+  .form-section-title .icon svg{ width: 14px !important; height: 14px !important; }
+  .form-grid{ gap: 10px 14px !important; }
+  .form-actions{ padding: 14px 22px !important; }
+  .fg .field-hint{ font-size: 10.5px !important; }
+
+  /* LIST */
+  .list-toolbar{ gap: 10px !important; margin-bottom: 18px !important; }
+  .list-search{ padding: 11px 14px !important; font-size: 13.5px !important; }
+  .list-count{ font-size: 12px !important; }
+  .objects-list{ gap: 14px !important; }
+  .obj-row .badges{ padding: 12px 16px 0 !important; }
+  .badge{ font-size: 9.5px !important; padding: 4px 8px !important; }
+  .obj-row .title{ font-size: 14.5px !important; padding: 10px 16px 5px !important; }
+  .obj-row .meta{ font-size: 11.5px !important; padding: 0 16px !important; }
+  .obj-row .price{ font-size: 15px !important; padding: 10px 16px 12px !important; }
+  .obj-row .actions{ padding: 12px 16px 14px !important; }
+  .obj-row .actions button{ font-size: 11.5px !important; padding: 8px 10px !important; }
+
+  /* MODAL */
+  .modal-body{ padding: 22px 28px 28px !important; }
+  .modal-body h2{ font-size: 22px !important; }
+  .modal-specs .spec{ padding: 12px 14px !important; }
+  .spec label{ font-size: 10px !important; }
+  .spec b{ font-size: 13.5px !important; }
+  .modal-desc{ font-size: 13.5px !important; }
+  .modal-price{ font-size: 22px !important; }
+}
+
+/* ТАЧ-УСТРОЙСТВА И РЕДУКЦИЯ АНИМАЦИЙ */
+@media (hover:none){
+  .obj-row:hover{transform:none}
+  .obj-row:hover .thumb img{transform:none}
+  .scene .arch-grid{animation:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .particles{display:none}
+}
+@supports (padding:env(safe-area-inset-top)){
+  .nav-wrap{padding-top:calc(clamp(14px, 1.6vw, 22px) + env(safe-area-inset-top))}
+  .nav-wrap.scrolled{padding-top:calc(clamp(8px, 1vw, 12px) + env(safe-area-inset-top))}
+}
+</style>
+</head>
+<body>
+
+<!-- ФОН -->
+<div class="scene" aria-hidden="true">
+  <div class="arch-grid"></div>
+  <div class="pulse p1"></div>
+  <div class="pulse p2"></div>
+  <div class="pulse p3"></div>
+  <div class="mountains" data-depth="0.06"><svg viewBox="0 0 1440 500" preserveAspectRatio="none"><path class="range-1" fill="currentColor" d="M0 500 L0 320 L80 260 L180 300 L280 220 L380 260 L480 200 L580 240 L680 180 L780 220 L880 150 L980 200 L1080 140 L1180 190 L1280 130 L1380 180 L1440 150 L1440 500 Z"/></svg></div>
+  <div class="mountains" data-depth="0.1"><svg viewBox="0 0 1440 500" preserveAspectRatio="none"><path class="range-2" fill="currentColor" d="M0 500 L0 380 L120 320 L240 370 L360 290 L480 340 L600 270 L720 320 L840 240 L960 300 L1080 230 L1200 290 L1320 210 L1440 260 L1440 500 Z"/></svg></div>
+  <div class="mountains" data-depth="0.16"><svg viewBox="0 0 1440 500" preserveAspectRatio="none"><path class="range-3" fill="currentColor" d="M0 500 L0 440 L140 390 L280 430 L420 370 L560 410 L700 350 L840 400 L980 340 L1120 390 L1260 330 L1400 380 L1440 370 L1440 500 Z"/></svg></div>
+  <div class="particles" id="particles"></div>
+  <div class="noise"></div>
+</div>
+
+<header class="nav-wrap" id="nav">
+  <nav class="nav-inner">
+    <a class="brand-center" href="index.html" aria-label="СИНДИКА">
+      <svg class="logo" viewBox="0 0 24 28" fill="none"><path d="M6 26 L12 2 L18 26 M9 18 H15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="name">СИНДИКА</span>
+      <span class="sub">Control Panel</span>
+    </a>
+    <div class="nav-user" id="navUser" hidden>
+      <span class="who"><b id="whoami">—</b><span class="role" id="whoamiRole"></span></span>
+      <button class="logout-btn" id="logoutBtn">Выйти</button>
+    </div>
+  </nav>
+</header>
+
+<main class="admin-main">
+
+  <!-- LOGIN -->
+  <section class="login-wrap" id="loginScreen">
+    <form class="login-card" id="loginForm" autocomplete="on">
+      <span class="eyebrow">🔒 Защищённая зона</span>
+      <h1>Вход в панель</h1>
+      <p class="login-sub">Доступ только для сотрудников агентства СИНДИКА.</p>
+      <div class="fg">
+        <label for="loginUser">Логин</label>
+        <input id="loginUser" name="username" type="text" autocomplete="username" required>
+      </div>
+      <div class="fg">
+        <label for="loginPass">Пароль</label>
+        <input id="loginPass" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <div class="login-error" id="loginError" hidden></div>
+      <button class="btn btn-primary" type="submit" id="loginBtn">Войти</button>
+    </form>
+  </section>
+
+  <!-- PANEL -->
+  <section class="panel-wrap" id="panelScreen" hidden>
+    <div class="wrap">
+      <div class="panel-head">
+        <div>
+          <span class="eyebrow">Панель управления</span>
+          <h2>Объекты <em>недвижимости</em></h2>
+        </div>
+        <div class="panel-actions">
+          <button class="btn btn-ghost" id="refreshBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 12a11 11 0 1 1-3.5-8.1"/><path d="M23 4v6h-6"/></svg>
+            Обновить
+          </button>
+          <button class="btn btn-primary" id="showAddBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            Добавить объект
+          </button>
+        </div>
+      </div>
+
+      <form class="obj-form" id="objForm" hidden novalidate>
+        <div class="form-head">
+          <h3 id="formTitle">Новый объект</h3>
+          <button type="button" class="close-form" id="closeFormBtn" aria-label="Закрыть">✕</button>
+        </div>
+
+        <!-- Секция 1: Основное -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg></span>
+            <h4>Основное</h4>
+          </div>
+          <div class="form-grid">
+            <div class="fg full"><label>Заголовок *</label><input name="title" required placeholder="ЖК «Синдика», 3-комн. с видом"></div>
+            <div class="fg"><label>Тип *</label>
+              <select name="type" id="selType" required>
+                <option value="">—</option>
+                <option>Квартира</option>
+                <option>Пентхаус</option>
+                <option>Таунхаус</option>
+                <option>Дом</option>
+                <option>Коммерческое помещение</option>
+                <option>Земельный участок</option>
+                <option>Гараж</option>
+                <option>Машиноместо</option>
+              </select>
+            </div>
+            <div class="fg"><label>Сделка *</label>
+              <select name="deal" required>
+                <option value="Продажа">Продажа</option>
+                <option value="Покупка">Покупка</option>
+                <option value="Аренда">Аренда</option>
+                <option value="Обмен">Обмен</option>
+              </select>
+            </div>
+            <div class="fg"><label>Статус</label>
+              <select name="status">
+                <option value="active">Опубликован</option>
+                <option value="hidden">Скрыт</option>
+              </select>
+            </div>
+            <div class="fg full"><label>Метка</label><input name="tag" placeholder="Новостройка / Инвестиции / Премиум"></div>
+          </div>
+        </div>
+
+        <!-- Секция 2: Расположение -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a7 7 0 1 1 14 0c0 5.5-7 10-7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg></span>
+            <h4>Расположение</h4>
+          </div>
+          <div class="form-grid">
+            <div class="fg"><label>Город *</label>
+              <select id="selCity" required>
+                <option value="Нальчик">Нальчик</option>
+                <option value="Чегем">Чегем</option>
+                <option value="Прохладный">Прохладный</option>
+                <option value="Баксан">Баксан</option>
+                <option value="Майский">Майский</option>
+                <option value="Тырныауз">Тырныауз</option>
+                <option value="Нарткала">Нарткала</option>
+                <option value="Другой">Другой город</option>
+              </select>
+            </div>
+            <div class="fg" id="wrapOtherCity" hidden>
+              <label>Название города *</label>
+              <input id="otherCity" placeholder="Например: Пятигорск">
+            </div>
+            <div class="fg" id="wrapDistrict">
+              <label>Район Нальчика *</label>
+              <select name="district" id="selDistrict">
+                <option value="">—</option>
+                <option>Центр</option>
+                <option>Горная</option>
+                <option>Стрелка</option>
+                <option>Вольный Аул</option>
+                <option>Александровка</option>
+                <option>Искож</option>
+                <option>Долинск</option>
+                <option>Затишье</option>
+                <option>Дубки</option>
+                <option>Молодёжный</option>
+                <option>Телевышки</option>
+                <option>Хладокомбинат</option>
+              </select>
+            </div>
+            <div class="fg full"><label>Адрес</label><input name="address" placeholder="ул. Ленина, 1 (без города если Нальчик)"></div>
+          </div>
+        </div>
+
+        <!-- Секция 3: Характеристики -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></span>
+            <h4>Характеристики</h4>
+            <span class="hint" id="charHint">для квартир и домов</span>
+          </div>
+          <div class="form-grid">
+            <div class="fg" id="wrapRooms"><label>Комнат</label><input name="rooms" type="number" min="0"></div>
+            <div class="fg"><label id="lblArea">Площадь общая, м²</label><input name="area" type="number" step="0.1"></div>
+            <div class="fg" id="wrapKitchen"><label id="lblKitchen">Площадь кухни, м²</label><input name="kitchenArea" type="number" step="0.1"></div>
+            <div class="fg" id="wrapFloor"><label>Этаж</label><input name="floor" type="number"></div>
+            <div class="fg" id="wrapFloors"><label>Этажей в доме</label><input name="floors" type="number"></div>
+            <div class="fg"><label>Год постройки</label><input name="yearBuilt" type="number"></div>
+            <div class="fg" id="wrapBathrooms"><label>Санузлов</label><input name="bathrooms" type="number" min="0"></div>
+            <div class="fg" id="wrapBalcony"><label>Балкон</label><input name="balcony" placeholder="Лоджия"></div>
+            <div class="fg" id="wrapParking"><label>Парковка</label><input name="parking" placeholder="Подземная"></div>
+            <div class="fg" id="wrapRenovation"><label>Ремонт</label><input name="renovation" placeholder="Дизайнерский"></div>
+            <div class="fg"><label>Застройщик</label><input name="developer"></div>
+            <div class="fg"><label>Цена, ₽ *</label><input name="price" type="number" required></div>
+          </div>
+        </div>
+
+        <!-- Секция 4: Медиа -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 15l-5-5-4 4-2-2-7 7"/></svg></span>
+            <h4>Медиа</h4>
+          </div>
+          <div class="form-grid">
+            <div class="fg full"><label>Фото (ссылки, по одной в строке)</label>
+              <textarea name="photos" rows="3" placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg"></textarea>
+              <span class="field-hint">Первое фото идёт в карточку, все — в галерею</span>
+            </div>
+            <div class="fg full"><label>Видео (YouTube / Rutube / VK / mp4)</label>
+              <input name="video" placeholder="https://youtube.com/watch?v=...">
+            </div>
+          </div>
+        </div>
+
+        <!-- Секция 5: Описание -->
+        <div class="form-section">
+          <div class="form-section-title">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span>
+            <h4>Описание</h4>
+          </div>
+          <div class="form-grid">
+            <div class="fg full"><label>Краткое описание * (для карточки)</label>
+              <textarea name="descShort" rows="2" required placeholder="1–2 предложения: главное об объекте"></textarea>
+            </div>
+            <div class="fg full"><label>Полное описание (для модалки)</label>
+              <textarea name="descFull" rows="5" placeholder="Подробное описание: инфраструктура, отделка, плюсы локации"></textarea>
+            </div>
+            <div class="fg full"><label>Дополнительные характеристики (по одной в строке)</label>
+              <textarea name="features" rows="4" placeholder="Для квартир: Панорамные окна / Тёплый пол&#10;Для земли: ИЖС, свет, газ, вода&#10;Для коммерции: Витрины, отдельный вход, 30 кВт"></textarea>
+              <span class="field-hint">Всё, что не вошло в стандартные поля — по одной характеристике в строке</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" id="cancelFormBtn">Отмена</button>
+          <button type="submit" class="btn btn-primary" id="saveBtn">
+            Сохранить объект
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </form>
+
+      <div class="list-toolbar">
+        <input type="search" id="listSearch" class="list-search" placeholder="Поиск по названию, району, адресу...">
+        <span class="list-count" id="listCount">—</span>
+      </div>
+      <div id="objectsList" class="objects-list"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal" id="objModal" role="dialog" aria-modal="true">
+  <div class="modal-backdrop" data-modal-close></div>
+  <div class="modal-card">
+    <button class="modal-close" data-modal-close aria-label="Закрыть">✕</button>
+    <div class="gallery">
+      <div class="gallery-main" id="galleryMain"></div>
+      <div class="gallery-thumbs" id="galleryThumbs"></div>
+    </div>
+    <div class="modal-body">
+      <h2 id="mTitle">—</h2>
+      <div class="modal-loc">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a7 7 0 1 1 14 0c0 5.5-7 10-7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg>
+        <span id="mLoc">—</span>
+      </div>
+      <div class="modal-specs" id="mSpecs"></div>
+      <div class="modal-video" id="mVideo" hidden></div>
+      <p class="modal-desc" id="mDesc"></p>
+      <div class="modal-features" id="mFeatures"></div>
+      <div class="modal-price" id="mPrice">—</div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" type="button" id="mEditBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/></svg>
+          Редактировать
+        </button>
+        <button class="btn btn-ghost" type="button" id="mDeleteBtn" style="color:var(--danger);border-color:rgba(224,92,92,.3)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+          Удалить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+/* ============================================================
+   КОНФИГ
+   ============================================================ */
+const API_URL = 'https://script.google.com/macros/s/AKfycbyN-SkX6dcHesTbmQUnu57YHTBtJASnaV6PcJBwX3N47C0UIPNI6GN0sNYxlPZRLLvnbQ/exec';
+const ADMIN_TOKEN = 'tok_a7Bk29LmQ4pZ';
+const SESSION_KEY = 'cindi_admin_session_v1';
+const NALCHIK_DISTRICTS = ['Центр','Горная','Стрелка','Вольный Аул','Александровка','Искож','Долинск','Затишье','Дубки','Молодёжный','Телевышки','Хладокомбинат'];
+
+/* ============================================================
+   СЕССИЯ
+   ============================================================ */
+let session = null;
+function saveSession(obj){ session = obj; try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(obj)); } catch(e){} }
+function loadSession(){ try { const s = sessionStorage.getItem(SESSION_KEY); if (s) session = JSON.parse(s); } catch(e){} return session; }
+function clearSession(){ session = null; try { sessionStorage.removeItem(SESSION_KEY); } catch(e){} }
+
+/* ============================================================
+   API
+   ============================================================ */
+async function apiGet(params = {}){
+  const qs = new URLSearchParams(params).toString();
+  const res = await fetch(API_URL + '?' + qs, { method: 'GET' });
+  return res.json();
+}
+async function apiPost(payload){
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  });
+  return res.json();
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function toast(msg, type = ''){
+  const w = document.getElementById('toastWrap');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  w.appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(10px)'; }, 2600);
+  setTimeout(() => t.remove(), 3100);
+}
+
+/* ============================================================
+   UI refs
+   ============================================================ */
+const loginScreen = document.getElementById('loginScreen');
+const panelScreen = document.getElementById('panelScreen');
+const navUser = document.getElementById('navUser');
+const whoami = document.getElementById('whoami');
+const whoamiRole = document.getElementById('whoamiRole');
+const loginForm = document.getElementById('loginForm');
+const loginBtn = document.getElementById('loginBtn');
+const loginError = document.getElementById('loginError');
+const objForm = document.getElementById('objForm');
+const formTitle = document.getElementById('formTitle');
+const saveBtn = document.getElementById('saveBtn');
+const showAddBtn = document.getElementById('showAddBtn');
+const closeFormBtn = document.getElementById('closeFormBtn');
+const cancelFormBtn = document.getElementById('cancelFormBtn');
+const refreshBtn = document.getElementById('refreshBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+const objectsList = document.getElementById('objectsList');
+const listSearch = document.getElementById('listSearch');
+const listCount = document.getElementById('listCount');
+
+const selType = document.getElementById('selType');
+const selCity = document.getElementById('selCity');
+const selDistrict = document.getElementById('selDistrict');
+const wrapOtherCity = document.getElementById('wrapOtherCity');
+const otherCity = document.getElementById('otherCity');
+const wrapDistrict = document.getElementById('wrapDistrict');
+
+let ALL_OBJECTS = [];
+let editingId = null;
+
+function applySession(){
+  if (session){
+    loginScreen.hidden = true;
+    panelScreen.hidden = false;
+    navUser.hidden = false;
+    whoami.textContent = session.username;
+    whoamiRole.textContent = session.role === 'admin' ? 'Админ' : 'Менеджер';
+    loadObjects();
+  } else {
+    loginScreen.hidden = false;
+    panelScreen.hidden = true;
+    navUser.hidden = true;
+  }
+}
+
+/* ============================================================
+   ВХОД
+   ============================================================ */
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  loginError.hidden = true;
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value;
+
+  loginBtn.disabled = true;
+  const orig = loginBtn.innerHTML;
+  loginBtn.innerHTML = '<span class="spinner"></span> Проверяем...';
+
+  try {
+    const r = await apiPost({ action: 'login', token: ADMIN_TOKEN, username, password });
+    if (!r.ok) throw new Error(r.error || 'Неверные данные');
+    saveSession({ username: r.user.username, password, role: r.user.role });
+    loginForm.reset();
+    applySession();
+    toast('Добро пожаловать, ' + r.user.username, 'ok');
+  } catch (err){
+    loginError.textContent = err.message || 'Ошибка входа';
+    loginError.hidden = false;
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.innerHTML = orig;
+  }
+});
+
+logoutBtn.addEventListener('click', () => {
+  clearSession();
+  applySession();
+  ALL_OBJECTS = [];
+  objectsList.innerHTML = '';
+});
+
+/* ============================================================
+   СПИСОК
+   ============================================================ */
+async function loadObjects(){
+  objectsList.innerHTML = '<div class="empty-list">Загружаем данные…</div>';
+  try {
+    const r = await apiGet({ action: 'list' });
+    if (!r.ok) throw new Error(r.error);
+    ALL_OBJECTS = r.objects || [];
+    renderList();
+  } catch (err){
+    objectsList.innerHTML = '<div class="empty-list">Не удалось загрузить список. Проверьте соединение.</div>';
+    toast('Ошибка загрузки: ' + err.message, 'err');
+  }
+}
+
+function renderList(){
+  const q = (listSearch.value || '').toLowerCase().trim();
+  let list = ALL_OBJECTS.slice();
+  if (q){
+    list = list.filter(o =>
+      (o.title || '').toLowerCase().includes(q) ||
+      (o.district || '').toLowerCase().includes(q) ||
+      (o.address || '').toLowerCase().includes(q)
+    );
+  }
+  listCount.textContent = 'Найдено: ' + list.length + ' из ' + ALL_OBJECTS.length;
+
+  if (!list.length){
+    objectsList.innerHTML = '<div class="empty-list">Объектов пока нет. Нажмите «Добавить объект».</div>';
+    return;
+  }
+
+  const isAdmin = session && session.role === 'admin';
+  objectsList.innerHTML = list.map(o => {
+    const photo = (o.photos || '').split(/\r?\n|;/).map(s => s.trim()).filter(Boolean)[0] || '';
+    const thumbHTML = photo
+      ? `<img src="${escapeAttr(photo)}" alt="" loading="lazy" onerror="this.parentNode.innerHTML='<div class=no-photo>нет фото</div>'">`
+      : '<div class="no-photo">нет фото</div>';
+    const statusCls = o.status === 'hidden' ? 'status-hidden' : 'status-active';
+    const statusTxt = o.status === 'hidden' ? 'Скрыт' : 'Опубликован';
+    const price = Number(o.price) ? Number(o.price).toLocaleString('ru-RU') + ' ₽' : '—';
+    const deal = o.deal || 'Продажа';
+
+    const actions = isAdmin ? `
+      <div class="actions">
+        <button class="btn-edit" data-edit="${escapeAttr(o.id)}">Редактировать</button>
+        <button class="btn-del" data-del="${escapeAttr(o.id)}">Удалить</button>
+      </div>` : '';
+
+    return `
+      <article class="obj-row" data-id="${escapeAttr(o.id)}">
+        <div class="thumb">${thumbHTML}</div>
+        <div class="badges">
+          <span class="badge deal">${escapeAttr(deal)}</span>
+          <span class="badge ${statusCls}">${statusTxt}</span>
+          ${o.tag ? `<span class="badge tag">${escapeAttr(o.tag)}</span>` : ''}
+        </div>
+        <div class="title">${escapeAttr(o.title || '—')}</div>
+        <div class="meta">${escapeAttr(o.district || '')}${o.address ? ', ' + escapeAttr(o.address) : ''}</div>
+        <div class="price">${price}</div>
+        ${actions}
+      </article>
+    `;
+  }).join('');
+}
+
+listSearch.addEventListener('input', renderList);
+refreshBtn.addEventListener('click', loadObjects);
+
+/* ============================================================
+   ДИНАМИКА ПО ТИПУ
+   ============================================================ */
+function updateFieldsByType(){
+  const t = selType.value;
+  const isResidential = ['Квартира','Пентхаус','Таунхаус','Дом'].includes(t);
+  const isCommercial  = t === 'Коммерческое помещение';
+  const isLand        = t === 'Земельный участок';
+  const isGarage      = ['Гараж','Машиноместо'].includes(t);
+
+  const lblArea = document.getElementById('lblArea');
+  const lblKitchen = document.getElementById('lblKitchen');
+  const wrapKitchen = document.getElementById('wrapKitchen');
+  const wrapRooms = document.getElementById('wrapRooms');
+  const wrapFloor = document.getElementById('wrapFloor');
+  const wrapFloors = document.getElementById('wrapFloors');
+  const wrapBathrooms = document.getElementById('wrapBathrooms');
+  const wrapBalcony = document.getElementById('wrapBalcony');
+  const wrapParking = document.getElementById('wrapParking');
+  const wrapRenovation = document.getElementById('wrapRenovation');
+  const hint = document.getElementById('charHint');
+
+  [wrapRooms, wrapKitchen, wrapFloor, wrapFloors, wrapBathrooms, wrapBalcony, wrapParking, wrapRenovation].forEach(w => w.hidden = false);
+
+  if (isLand){
+    lblArea.textContent = 'Площадь, соток';
+    wrapKitchen.hidden = true;
+    wrapRooms.hidden = true;
+    wrapFloor.hidden = true;
+    wrapFloors.hidden = true;
+    wrapBathrooms.hidden = true;
+    wrapBalcony.hidden = true;
+    wrapParking.hidden = true;
+    wrapRenovation.hidden = true;
+    hint.textContent = 'площадь + назначение в особенностях';
+  } else if (isCommercial){
+    lblArea.textContent = 'Площадь, м²';
+    lblKitchen.textContent = 'Высота потолков, м';
+    wrapRooms.hidden = true;
+    wrapBathrooms.hidden = true;
+    wrapBalcony.hidden = true;
+    wrapFloors.hidden = true;
+    hint.textContent = 'витрины / мощность — в особенностях';
+  } else if (isGarage){
+    lblArea.textContent = 'Площадь, м²';
+    lblKitchen.textContent = 'Высота, м';
+    wrapRooms.hidden = true;
+    wrapFloors.hidden = true;
+    wrapBathrooms.hidden = true;
+    wrapBalcony.hidden = true;
+    wrapRenovation.hidden = true;
+    hint.textContent = 'тип (капитальный/металл) — в особенностях';
+  } else {
+    lblArea.textContent = 'Площадь общая, м²';
+    lblKitchen.textContent = 'Площадь кухни, м²';
+    hint.textContent = 'для квартир и домов';
+  }
+}
+selType.addEventListener('change', updateFieldsByType);
+
+/* ============================================================
+   ГОРОД / РАЙОН
+   ============================================================ */
+function updateCityFields(){
+  const c = selCity.value;
+  if (c === 'Нальчик'){
+    wrapDistrict.hidden = false;
+    wrapOtherCity.hidden = true;
+    otherCity.value = '';
+  } else if (c === 'Другой'){
+    wrapDistrict.hidden = true;
+    wrapOtherCity.hidden = false;
+    selDistrict.value = '';
+  } else {
+    wrapDistrict.hidden = true;
+    wrapOtherCity.hidden = true;
+    selDistrict.value = '';
+    otherCity.value = '';
+  }
+}
+selCity.addEventListener('change', updateCityFields);
+
+/* ============================================================
+   ФОРМА
+   ============================================================ */
+showAddBtn.addEventListener('click', () => openForm(null));
+closeFormBtn.addEventListener('click', closeForm);
+cancelFormBtn.addEventListener('click', closeForm);
+
+function openForm(obj){
+  editingId = obj ? obj.id : null;
+  formTitle.textContent = obj ? 'Редактирование объекта' : 'Новый объект';
+
+  objForm.reset();
+
+  if (obj){
+    const d = obj.district || '';
+    if (NALCHIK_DISTRICTS.includes(d)){
+      selCity.value = 'Нальчик';
+      selDistrict.value = d;
+      otherCity.value = '';
+    } else if (d && ['Чегем','Прохладный','Баксан','Майский','Тырныауз','Нарткала'].includes(d)){
+      selCity.value = d;
+      selDistrict.value = '';
+      otherCity.value = '';
+    } else if (d){
+      selCity.value = 'Другой';
+      otherCity.value = d;
+      selDistrict.value = '';
+    } else {
+      selCity.value = 'Нальчик';
+      selDistrict.value = '';
+      otherCity.value = '';
+    }
+
+    Object.keys(obj).forEach(k => {
+      if (k === 'district') return;
+      const el = objForm.elements[k];
+      if (el) el.value = obj[k] || '';
+    });
+  } else {
+    selCity.value = 'Нальчик';
+    selDistrict.value = '';
+    otherCity.value = '';
+  }
+
+  updateCityFields();
+  updateFieldsByType();
+  objForm.hidden = false;
+  objForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function closeForm(){
+  objForm.hidden = true;
+  objForm.reset();
+  editingId = null;
+}
+
+objForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!session) return;
+
+  const fd = new FormData(objForm);
+  const data = {};
+  fd.forEach((v, k) => { data[k] = (v || '').toString().trim(); });
+
+  if (!data.title)  return toast('Укажите заголовок', 'err');
+  if (!data.type)   return toast('Выберите тип', 'err');
+  if (!data.deal)   return toast('Выберите сделку', 'err');
+  if (!data.price)  return toast('Укажите цену', 'err');
+  if (!data.descShort) return toast('Добавьте краткое описание', 'err');
+
+  const cityVal = selCity.value;
+  if (cityVal === 'Нальчик'){
+    data.district = selDistrict.value;
+    if (!data.district) return toast('Выберите район Нальчика', 'err');
+  } else if (cityVal === 'Другой'){
+    data.district = otherCity.value.trim();
+    if (!data.district) return toast('Укажите название города', 'err');
+  } else {
+    data.district = cityVal;
+  }
+
+  if (cityVal !== 'Нальчик' && data.address && !data.address.toLowerCase().includes(cityVal.toLowerCase())){
+    data.address = cityVal + ', ' + data.address;
+  }
+
+  ['rooms','area','kitchenArea','floor','floors','yearBuilt','price','bathrooms'].forEach(k => {
+    if (data[k] !== '') data[k] = Number(data[k]);
+    else data[k] = '';
+  });
+
+  saveBtn.disabled = true;
+  const orig = saveBtn.innerHTML;
+  saveBtn.innerHTML = '<span class="spinner"></span> Сохраняем...';
+
+  try {
+    const payload = {
+      action: editingId ? 'update' : 'add',
+      token: ADMIN_TOKEN,
+      username: session.username,
+      password: session.password,
+      object: data
+    };
+    if (editingId) payload.id = editingId;
+
+    const r = await apiPost(payload);
+    if (!r.ok) throw new Error(r.error || 'Не удалось сохранить');
+
+    toast(editingId ? 'Объект обновлён' : 'Объект добавлен', 'ok');
+    closeForm();
+    await loadObjects();
+  } catch (err){
+    toast('Ошибка: ' + err.message, 'err');
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.innerHTML = orig;
+  }
+});
+
+/* ============================================================
+   EDIT / DELETE
+   ============================================================ */
+objectsList.addEventListener('click', async (e) => {
+  const editBtn = e.target.closest('[data-edit]');
+  const delBtn  = e.target.closest('[data-del]');
+
+  if (editBtn){
+    e.stopPropagation();
+    const obj = ALL_OBJECTS.find(o => String(o.id) === String(editBtn.dataset.edit));
+    if (obj) openForm(obj);
+    return;
+  }
+
+  if (delBtn){
+    e.stopPropagation();
+    const obj = ALL_OBJECTS.find(o => String(o.id) === String(delBtn.dataset.del));
+    if (!obj) return;
+    if (!confirm('Удалить объект «' + obj.title + '»? Действие необратимо.')) return;
+
+    delBtn.disabled = true;
+    delBtn.textContent = '...';
+    try {
+      const r = await apiPost({
+        action: 'delete', token: ADMIN_TOKEN,
+        username: session.username, password: session.password,
+        id: obj.id
+      });
+      if (!r.ok) throw new Error(r.error || 'Не удалось удалить');
+      toast('Объект удалён', 'ok');
+      await loadObjects();
+    } catch (err){
+      toast('Ошибка: ' + err.message, 'err');
+      delBtn.disabled = false;
+      delBtn.textContent = 'Удалить';
+    }
+  }
+});
+
+/* ============================================================
+   УТИЛИТЫ
+   ============================================================ */
+function escapeAttr(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+/* ============================================================
+   МОДАЛКА ПРОСМОТРА
+   ============================================================ */
+const objModal = document.getElementById('objModal');
+let modalObj = null;
+let modalPhotoIdx = 0;
+let modalPhotos = [];
+
+function openModal(objId){
+  const o = ALL_OBJECTS.find(x => String(x.id) === String(objId));
+  if (!o) return;
+  modalObj = o;
+
+  modalPhotos = (o.photos || '').split(/\r?\n|;/).map(s => s.trim()).filter(Boolean);
+  modalPhotoIdx = 0;
+  renderGallery();
+
+  document.getElementById('mTitle').textContent = o.title || '—';
+  document.getElementById('mLoc').textContent =
+    [o.district, o.address].filter(Boolean).join(', ') || '—';
+
+  const t = o.type || '';
+  const isLand = t === 'Земельный участок';
+  const isCommercial = t === 'Коммерческое помещение';
+  const isGarage = ['Гараж','Машиноместо'].includes(t);
+  const isResidential = ['Квартира','Пентхаус','Таунхаус','Дом'].includes(t);
+
+  const specs = [];
+  if (o.type) specs.push(['Тип', o.type]);
+  if (o.deal) specs.push(['Сделка', o.deal]);
+  if (o.rooms && isResidential) specs.push(['Комнат', o.rooms]);
+  if (o.area) specs.push(['Площадь', o.area + (isLand ? ' сот.' : ' м²')]);
+  if (o.kitchenArea){
+    if (isResidential) specs.push(['Кухня', o.kitchenArea + ' м²']);
+    else if (isCommercial) specs.push(['Выс. потолков', o.kitchenArea + ' м']);
+    else if (isGarage) specs.push(['Высота', o.kitchenArea + ' м']);
+  }
+  if (o.floor && (isResidential || isCommercial)) specs.push(['Этаж', o.floor + (o.floors ? ' / ' + o.floors : '')]);
+  if (o.yearBuilt && isResidential) specs.push(['Год', o.yearBuilt]);
+  if (o.bathrooms && isResidential) specs.push(['Санузлов', o.bathrooms]);
+  if (o.balcony && isResidential) specs.push(['Балкон', o.balcony]);
+  if (o.parking) specs.push(['Парковка', o.parking]);
+  if (o.renovation && isResidential) specs.push(['Ремонт', o.renovation]);
+  if (o.developer) specs.push(['Застройщик', o.developer]);
+  document.getElementById('mSpecs').innerHTML = specs.map(([l, v]) =>
+    `<div class="spec"><label>${escapeAttr(l)}</label><b>${escapeAttr(v)}</b></div>`
+  ).join('');
+
+  const videoBox = document.getElementById('mVideo');
+  if (o.video){ videoBox.hidden = false; videoBox.innerHTML = buildVideoHTML(o.video); }
+  else { videoBox.hidden = true; videoBox.innerHTML = ''; }
+
+  document.getElementById('mDesc').textContent = o.descFull || o.descShort || '';
+
+  const feats = (o.features || '').split(/\r?\n|;/).map(s => s.trim()).filter(Boolean);
+  const featsBox = document.getElementById('mFeatures');
+  featsBox.innerHTML = feats.map(f => `<span>${escapeAttr(f)}</span>`).join('');
+  featsBox.hidden = feats.length === 0;
+
+  document.getElementById('mPrice').textContent =
+    Number(o.price) ? Number(o.price).toLocaleString('ru-RU') + ' ₽' : '—';
+
+  const isAdmin = session && session.role === 'admin';
+  document.getElementById('mEditBtn').hidden = !isAdmin;
+  document.getElementById('mDeleteBtn').hidden = !isAdmin;
+
+  objModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  objModal.classList.remove('open');
+  document.body.style.overflow = '';
+  modalObj = null;
+}
+
+function renderGallery(){
+  const main = document.getElementById('galleryMain');
+  const thumbsBox = document.getElementById('galleryThumbs');
+
+  if (!modalPhotos.length){
+    main.innerHTML = '<div class="no-photo">нет фото</div>';
+    thumbsBox.innerHTML = '';
+    return;
+  }
+
+  const cur = modalPhotos[modalPhotoIdx];
+  main.innerHTML = `
+    <img src="${escapeAttr(cur)}" alt="">
+    <button class="gallery-nav prev" type="button" ${modalPhotoIdx === 0 ? 'disabled' : ''} aria-label="Назад">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="gallery-nav next" type="button" ${modalPhotoIdx === modalPhotos.length-1 ? 'disabled' : ''} aria-label="Вперёд">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+    ${modalPhotos.length > 1 ? `<span class="gallery-counter">${modalPhotoIdx+1} / ${modalPhotos.length}</span>` : ''}
+  `;
+
+  main.querySelector('.prev')?.addEventListener('click', () => { if (modalPhotoIdx > 0){ modalPhotoIdx--; renderGallery(); } });
+  main.querySelector('.next')?.addEventListener('click', () => { if (modalPhotoIdx < modalPhotos.length-1){ modalPhotoIdx++; renderGallery(); } });
+
+  if (modalPhotos.length > 1){
+    thumbsBox.innerHTML = modalPhotos.map((url, i) =>
+      `<div class="gallery-thumb ${i===modalPhotoIdx?'active':''}" data-i="${i}"><img src="${escapeAttr(url)}" alt="" loading="lazy"></div>`
+    ).join('');
+    thumbsBox.querySelectorAll('.gallery-thumb').forEach(el => {
+      el.addEventListener('click', () => { modalPhotoIdx = Number(el.dataset.i); renderGallery(); });
+    });
+  } else {
+    thumbsBox.innerHTML = '';
+  }
+}
+
+function buildVideoHTML(url){
+  const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  if (yt) return `<iframe src="https://www.youtube.com/embed/${yt[1]}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  const rt = url.match(/rutube\.ru\/video\/([a-zA-Z0-9]+)/);
+  if (rt) return `<iframe src="https://rutube.ru/play/embed/${rt[1]}" allowfullscreen></iframe>`;
+  if (url.includes('vk.com/video')) return `<iframe src="${escapeAttr(url)}" allowfullscreen></iframe>`;
+  return `<video controls preload="metadata"><source src="${escapeAttr(url)}" type="video/mp4"></video>`;
+}
+
+objectsList.addEventListener('click', (e) => {
+  if (e.target.closest('[data-edit]') || e.target.closest('[data-del]')) return;
+  const card = e.target.closest('.obj-row');
+  if (card) openModal(card.dataset.id);
+});
+
+objModal.querySelectorAll('[data-modal-close]').forEach(el => el.addEventListener('click', closeModal));
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && objModal.classList.contains('open')) closeModal();
+  if (objModal.classList.contains('open')){
+    if (e.key === 'ArrowLeft' && modalPhotoIdx > 0){ modalPhotoIdx--; renderGallery(); }
+    if (e.key === 'ArrowRight' && modalPhotoIdx < modalPhotos.length-1){ modalPhotoIdx++; renderGallery(); }
+  }
+});
+
+document.getElementById('mEditBtn').addEventListener('click', () => {
+  if (!modalObj) return;
+  const id = modalObj.id;
+  closeModal();
+  const obj = ALL_OBJECTS.find(o => String(o.id) === String(id));
+  if (obj) openForm(obj);
+});
+document.getElementById('mDeleteBtn').addEventListener('click', () => {
+  if (!modalObj) return;
+  const id = modalObj.id;
+  closeModal();
+  const btn = document.querySelector(`[data-del="${id}"]`);
+  if (btn) btn.click();
+});
+
+/* ============================================================
+   ФОН (частицы, параллакс, nav)
+   ============================================================ */
+(function(){
+  const c = document.getElementById('particles');
+  if (c){
+    const N = window.innerWidth < 768 ? 14 : 28;
+    for (let i=0;i<N;i++){
+      const s = document.createElement('span');
+      const size = Math.random()*2+1;
+      s.style.left = Math.random()*100+'%';
+      s.style.bottom = '-5vh';
+      s.style.width = size+'px';
+      s.style.height = size+'px';
+      s.style.animationDuration = (18+Math.random()*22)+'s';
+      s.style.animationDelay = (-Math.random()*30)+'s';
+      s.style.setProperty('--drift',(Math.random()*80-40)+'px');
+      s.style.opacity = (0.4+Math.random()*0.6);
+      c.appendChild(s);
+    }
+  }
+  const hasHover = window.matchMedia('(hover:hover)').matches;
+  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if (!hasHover || reduce) return;
+  const layers = document.querySelectorAll('.mountains');
+  const pulses = document.querySelectorAll('.scene .pulse');
+  let tx=0, ty=0, cx=0, cy=0;
+  window.addEventListener('pointermove', e => {
+    tx = (e.clientX / innerWidth - .5);
+    ty = (e.clientY / innerHeight - .5);
+  }, { passive:true });
+  (function loop(){
+    cx += (tx - cx) * .05;
+    cy += (ty - cy) * .05;
+    layers.forEach(l => {
+      const d = parseFloat(l.dataset.depth || .05);
+      const o = d * 100;
+      l.style.transform = `translate3d(${cx*o}px, ${cy*o*.5}px, 0)`;
+    });
+    pulses.forEach((p,i) => {
+      const s = 8 + i*4;
+      p.style.transform = `translate3d(${cx*s}px, ${cy*s}px, 0) scale(${1+Math.abs(cx)*.05})`;
+    });
+    requestAnimationFrame(loop);
+  })();
+})();
+
+(function(){
+  const n = document.getElementById('nav');
+  let t = false;
+  window.addEventListener('scroll', () => {
+    if (!t){ requestAnimationFrame(() => { n.classList.toggle('scrolled', scrollY > 20); t = false; }); t = true; }
+  }, { passive:true });
+})();
+
+/* Старт */
+updateCityFields();
+updateFieldsByType();
+if (loadSession()) applySession();
+else applySession();
+</script>
+</body>
+</html>
